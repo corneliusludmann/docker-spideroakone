@@ -15,7 +15,7 @@ ARG USER=spideroakone
 ARG GROUP=spideroakone
 ARG UID=1000
 ARG GID=1000
-RUN groupadd -g ${GID} ${GROUP} && \
+RUN groupadd -fg ${GID} ${GROUP} && \
 	useradd -r -g ${GID} -u ${UID} -s /bin/bash -d /spideroakone -m ${USER}
 
 # Create volumes
@@ -31,6 +31,6 @@ USER ${USER}
 WORKDIR /spideroakone
 
 # Entrypoint
-#NTRYPOINT ["/bin/bash"]
+#ENTRYPOINT ["/bin/bash"]
 ENTRYPOINT ["SpiderOakONE"]
 CMD ["--help"]
