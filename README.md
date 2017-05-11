@@ -23,11 +23,11 @@ By default, a user with name 'spideroakone' and user ID 1000  as well as a group
 
 ## Run Docker Container
 
-The docker container has to volumes:
+The docker container has two volumes:
 - `/spideroakone/.config/SpiderOakONE`
 - `/spideroakone/data`
 
-The following examples assume that you have created to folders in your working directory accessible from the user with the ID specified during the build (user ID 1000 by default):
+The following examples assume that you have created two folders in your working directory accessible from the user with the ID specified during the build (user ID 1000 by default):
 - `$(pwd)/config` -- The folder where SpiderOakONE stores the config files and cached data.
 - `$(pwd)/data` -- The folder where you store your data that should be backed up.
 
@@ -36,7 +36,7 @@ By default, the container prints the SpiderOakONE help:
 	docker run --rm -it --name spideroakone -v $(pwd)/data:/spideroakone/data -v $(pwd)/config:/spideroakone/.config/SpiderOakONE ludmann/spideroakone
 
 
-Each arguments are passed to SpiderOakONE. To launch the SpiderOakONE setup run:
+Each arguments are passed to `SpiderOakONE`. To launch the SpiderOakONE setup run:
 
 	docker run --rm -it --name spideroakone -v $(pwd)/data:/spideroakone/data -v $(pwd)/config:/spideroakone/.config/SpiderOakONE ludmann/spideroakone --setup=-
 
