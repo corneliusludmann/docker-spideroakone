@@ -3,10 +3,12 @@ FROM debian
 LABEL maintainer "Cornelius A. Ludmann <docker@cornelius-ludmann.de>"
 
 # Install SpiderOakONE
+# gnupg is required for the post install script of SpiderOakONE starting with version 6.3.0 ('apt-key')
 RUN apt-get update && apt-get install -y \
         curl \
+        gnupg \
     && rm -rf /var/lib/apt/lists/*
-RUN curl -Ls -o spideroakone.deb "https://spideroak.com/getbuild?platform=ubuntu&arch=x86_64" && \
+RUN curl -Ls -o spideroakone.deb "https://spideroak.com/release/spideroak/deb_x64" && \
 	dpkg -i spideroakone.deb && \
 	rm -f spideroakone.deb
 
