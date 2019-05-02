@@ -4,48 +4,36 @@
 Unofficial Docker container for [SpiderOakONE](https://spideroak.com/).
 
 
-## Build Docker Image
-
-Simply run `docker build` to build a docker image, e.g.:
-
-	docker build -t ludmann/spideroakone .
-
-By default a user with name 'spideroakone' and user ID 1000  as well as a group with name 'spideroakone' and group ID 1000 is created and used. You can change this by setting build args, e.g.:
-
-
-	docker build -t ludmann/spideroakone \
-		--build-arg USER=$(whoami) \
-		--build-arg GROUP=$(whoami) \
-		--build-arg UID=$(id -u) \
-		--build-arg GID=$(id -g) \
-		.
-
-
 ## Run Docker Container
 
-The docker container has two volumes:
+The docker container has the following volume:
 - `/spideroakone/.config/SpiderOakONE`
-- `/spideroakone/data`
 
-The following examples assume that you have created two folders in your working directory accessible from the user with the ID specified during the build (user ID 1000 by default):
-- `$(pwd)/config` -- The folder where SpiderOakONE stores the config files and cached data.
-- `$(pwd)/data` -- The folder where you store your data which should be backed up.
+By default, the container prints the SpiderOakONE version (`SpiderOakONE --version`). The argument is passed to `SpiderOakONE`. To launch the SpiderOakONE setup run:
 
-By default, the container prints the SpiderOakONE help:
+	docker run --rm -it \
+		-v $(pwd)/config:/spideroakone/.config/SpiderOakONE \
+		ludmann/spideroakone --setup=-
 
-	docker run --rm -it --name spideroakone -v $(pwd)/data:/spideroakone/data -v $(pwd)/config:/spideroakone/.config/SpiderOakONE ludmann/spideroakone
+After setup you should add the folder for the backup, e. g.:
 
+	docker run --rm -it \
+		-v $(pwd)/config:/spideroakone/.config/SpiderOakONE \
+		-v $(pwd)/mydata:/backup \
+		ludmann/spideroakone --include-dir=/backup
 
-Every argument is passed to `SpiderOakONE`. To launch the SpiderOakONE setup run:
+Start your backup in batchmode (will exit if ready):
 
-	docker run --rm -it --name spideroakone -v $(pwd)/data:/spideroakone/data -v $(pwd)/config:/spideroakone/.config/SpiderOakONE ludmann/spideroakone --setup=-
+	docker run --rm -it \
+		-v $(pwd)/config:/spideroakone/.config/SpiderOakONE \
+		-v $(pwd)/mydata:/backup \
+		ludmann/spideroakone --batchmode
 
-After setup you should add the data folder:
+... or in headless mode (will run forever):
 
-	docker run --rm -it --name spideroakone -v $(pwd)/data:/spideroakone/data -v $(pwd)/config:/spideroakone/.config/SpiderOakONE ludmann/spideroakone --include-dir=/spideroakone/data
-
-Start your backup in batchmode:
-
-	docker run --rm -it --name spideroakone -v $(pwd)/data:/spideroakone/data -v $(pwd)/config:/spideroakone/.config/SpiderOakONE ludmann/spideroakone --batchmode
+	docker run --rm -it \
+		-v $(pwd)/config:/spideroakone/.config/SpiderOakONE \
+		-v $(pwd)/mydata:/backup \
+		ludmann/spideroakone --headless
 
 That's it.
