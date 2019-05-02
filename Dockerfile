@@ -12,27 +12,18 @@ RUN curl -Ls -o spideroakone.deb "https://spideroak.com/release/spideroak/deb_x6
 	dpkg -i spideroakone.deb && \
 	rm -f spideroakone.deb
 
-# Create group and user
-ARG USER=spideroakone
-ARG GROUP=spideroakone
-ARG UID=1000
-ARG GID=1000
-RUN groupadd -fg ${GID} ${GROUP} && \
-	useradd -r -g ${GID} -u ${UID} -s /bin/bash -d /spideroakone -m ${USER}
-
 # Create volumes
-RUN mkdir -p /spideroakone/.config/SpiderOakONE && \
-	chown -R ${USER}:${GROUP} /spideroakone/.config && \
-	mkdir /spideroakone/data && \
-	chown ${USER}:${GROUP} /spideroakone/data
+RUN mkdir -p /spideroakone/.config/SpiderOakONE
 VOLUME /spideroakone/.config/SpiderOakONE
-VOLUME /spideroakone/data
 
-# Change user and workdir
-USER ${USER}
+# Change workdir
 WORKDIR /spideroakone
 
+# Set user ID
+# If you want to start SpiderOakONE as root simple set SPIDEROAKONE_UID to an empty string or 0.
+ENV SPIDEROAKONE_UID=1000
+
 # Entrypoint
-#ENTRYPOINT ["/bin/bash"]
-ENTRYPOINT ["SpiderOakONE"]
-CMD ["--help"]
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["--version"]
