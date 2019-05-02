@@ -3,7 +3,7 @@
 set -e
 
 if [[ -z "$SPIDEROAKONE_UID" ]] || [[ "$SPIDEROAKONE_UID" == "0" ]]; then
-	echo 'INFO: Environment variable $UID is not set. Running SpiderOakONE as root.'
+	echo 'INFO: Environment variable $SPIDEROAKONE_UID is not set. Running SpiderOakONE as root.'
 	echo ""
 	SpiderOakONE "$@"
 else

@@ -54,6 +54,6 @@ Example how to run SpiderOakONE as root:
 
 	docker run --rm -it \
 		-e SPIDEROAKONE_UID=0 \
-		-v $(pwd)/config:/spideroakone/.config/SpiderOakONE \
+		-v $(pwd)/config:/root/.config/SpiderOakONE \
 		ludmann/spideroakone --setup=-
 
